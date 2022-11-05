@@ -25,6 +25,11 @@ app.get('/users/:id', (req, res, next) => {
   con.getUser({id: Number(req.params.id)});
 });
 
+app.get('/api/users/:id', (req, res, next) => {
+  const con = new UserController(new UserInteractor(new UserRepository(), new JSONUserPresenter(res)));
+  con.getUser({id: Number(req.params.id)});
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -91,6 +96,17 @@ class UserPresenter {
   complete(output) {
     const viewModel = new UserViewModel(output);
     this.res.render('user', viewModel);
+  }
+}
+
+class JSONUserPresenter {
+  constructor(res) {
+    this.res = res;
+  }
+
+  complete(output) {
+    const viewModel = new UserViewModel(output);
+    this.res.send(viewModel);
   }
 }
 
