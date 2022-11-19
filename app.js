@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var timer = require('timers/promises');
+// var timer = require('timers/promises');
 
 var app = express();
 
@@ -22,7 +22,7 @@ app.get('/', (req, res, next) => {
 });
 
 app.get('/users/:id', async (req, res, next) => {
-  await timer.setTimeout(2000);
+  // await timer.setTimeout(2000);
   const con = new UserController(new UserInteractor(new UserRepository(), new UserPresenter(res)));
   con.getUser({id: Number(req.params.id)});
 });
